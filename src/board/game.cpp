@@ -1,9 +1,10 @@
-#include "chessgame.hpp"
+#include "Chessgame.hpp"
 
 Game::Game(void)
-	:pieceList(NULL),
-	turn(WHITE)
+	:turn(WHITE)
 {
+    pieceList = new Piece[PIECE_COUNT];
+    
 }
 Game::~Game(void){
 	this->reset();
@@ -20,47 +21,6 @@ void Game::reset(void){
 void Game::newGame(void){
 	reset();
 	turn = WHITE;
-	// I guess VS2010 can't do this...
-	/*
-	pieceList = new Piece[PIECE_COUNT]
-	{
-		Piece(a8, ROOK  , BLACK),
-		Piece(b8, KNIGHT, BLACK),
-		Piece(c8, BISHOP, BLACK),
-		Piece(d8, QUEEN , BLACK),
-		Piece(e8, KING  , BLACK),
-		Piece(f8, BISHOP, BLACK),
-		Piece(g8, KNIGHT, BLACK),
-		Piece(h8, ROOK, BLACK),
-		
-		Piece(a7, PAWN, BLACK),
-		Piece(b7, PAWN, BLACK),
-		Piece(c7, PAWN, BLACK),
-		Piece(d7, PAWN, BLACK),
-		Piece(e7, PAWN, BLACK),
-		Piece(f7, PAWN, BLACK),
-		Piece(g7, PAWN, BLACK),
-		Piece(h7, PAWN, BLACK),
-		
-		Piece(a1, ROOK  , WHITE),
-		Piece(b1, KNIGHT, WHITE),
-		Piece(c1, BISHOP, WHITE),
-		Piece(d1, QUEEN , WHITE),
-		Piece(e1, KING  , WHITE),
-		Piece(f1, BISHOP, WHITE),
-		Piece(g1, KNIGHT, WHITE),
-		Piece(h1, ROOK, WHITE),
-		
-		Piece(a2, PAWN, WHITE),
-		Piece(b2, PAWN, WHITE),
-		Piece(c2, PAWN, WHITE),
-		Piece(d2, PAWN, WHITE),
-		Piece(e2, PAWN, WHITE),
-		Piece(f2, PAWN, WHITE),
-		Piece(g2, PAWN, WHITE),
-		Piece(h2, PAWN, WHITE)
-	};
-	*/
 
 	pieceList[ 0].generate(a8, ROOK  , BLACK);
 	pieceList[ 1].generate(b8, KNIGHT, BLACK);
@@ -79,6 +39,7 @@ void Game::newGame(void){
 	pieceList[13].generate(f7, PAWN, BLACK);
 	pieceList[14].generate(g7, PAWN, BLACK);
 	pieceList[15].generate(h7, PAWN, BLACK);
+    std::cout << "Here\n";
 		
 	pieceList[16].generate(a1, ROOK  , WHITE);
 	pieceList[17].generate(b1, KNIGHT, WHITE);
@@ -100,14 +61,13 @@ void Game::newGame(void){
 	
 	// Create the board, then update moves.
 	// Can't be done in same loop, this would update moves with an un-filled board
-	std::for_each(pieceList, pieceList + PIECE_COUNT, [&](Piece& p)	{
+  	std::for_each(pieceList, pieceList + PIECE_COUNT, [&](Piece& p)	{
 		*(board[p.arrPos()]) = &p;
 	});
 
 	updateMoves(turn);
 	Piece_Color temp = turn == WHITE ? BLACK : WHITE;
 	updateMoves(temp);
-
 }
 void Game::newGame(std::ifstream& in){
 	reset();

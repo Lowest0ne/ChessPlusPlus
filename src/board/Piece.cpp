@@ -1,4 +1,4 @@
-#include "chessgame.hpp"
+#include "Chessgame.hpp"
 
 const char* Piece::Piece_Type_Str [] = {"None", "Pawn", "Rook", "Night", "Bishop", "Queen", "King"};
 const char* Piece::Piece_Color_Str[] = {"White", "Black"};

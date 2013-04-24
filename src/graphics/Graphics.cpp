@@ -34,14 +34,14 @@ namespace chesspp
         {
             display->draw(board);
         }
-        void GraphicsHandler::drawPiece(board::Piece *p)
+        void GraphicsHandler::drawPiece(Piece *p)
         {
-            pieces.setTextureRect(sf::IntRect(p->getType()*cell_size, p->getColor()*cell_size, cell_size, cell_size));
-            drawSpriteAtCell(pieces, p->getBoardPos().getX(), p->getBoardPos().getY());
+            pieces.setTextureRect(sf::IntRect(p->type()*cell_size, p->color()*cell_size, cell_size, cell_size));
+            drawSpriteAtCell(pieces, p->xPos(), p->yPos());
         }
-        void GraphicsHandler::drawPieceAt(board::Piece *p, const sf::Vector2i &pos)
+        void GraphicsHandler::drawPieceAt(Piece *p, const sf::Vector2i &pos)
         {
-            pieces.setTextureRect(sf::IntRect(p->getType()*cell_size, p->getColor()*cell_size, cell_size, cell_size));
+            pieces.setTextureRect(sf::IntRect(p->type()*cell_size, p->color()*cell_size, cell_size, cell_size));
             pieces.setPosition(pos.x - (cell_size / 2), pos.y - (cell_size / 2));
 
             display->draw(pieces);
@@ -50,37 +50,11 @@ namespace chesspp
         {
             drawSpriteAtCell(validMove, x, y);
         }
-        void GraphicsHandler::drawBoard(const board::Board *b)
+        void GraphicsHandler::drawBoard(Piece **b)
         {
             drawBackground();
 
-            // Valid moves are drawn for the piece being hovered over
-            // Or the piece that is currently selected
-            board::Piece* pCurrent = b->getCurrent();
-            board::Piece* pSelect  = b->getSelected();
-            if (pSelect)
-                for (auto &i: pSelect->getTrajectory())
-                {
-                    if(i.isValid())
-                        drawValidMove(i.getX(), i.getY());
-                }
-            else if (pCurrent)
-                for (auto &i: pCurrent->getTrajectory())
-                {
-                    if(i.isValid())
-                        drawValidMove(i.getX(), i.getY());
-                }
 
-            // Draw the non-selected pieces
-            for(auto &i: b->pieces)
-            {
-                if(i && i != b->getSelected())
-                    drawPiece(i);
-            }
-
-            // Draw the selected piece
-            if (b->getSelected())
-                drawPieceAt(b->getSelected(), sf::Mouse::getPosition(*display));
         }
     }
 }

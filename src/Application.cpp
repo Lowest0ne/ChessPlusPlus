@@ -22,7 +22,6 @@ namespace chesspp
             state->OnRender();
             display.display();
         }
-
         return 0;
     }
 
