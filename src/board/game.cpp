@@ -1,9 +1,9 @@
 #include "Chessgame.hpp"
 
 Game::Game(void)
-	:turn(WHITE)
+	:pieceList(NULL)
+    ,turn(WHITE)
 {
-    pieceList = new Piece[PIECE_COUNT];
     
 }
 Game::~Game(void){
@@ -19,7 +19,8 @@ void Game::reset(void){
 
 
 void Game::newGame(void){
-	reset();
+	reset();    
+    pieceList = new Piece[PIECE_COUNT];
 	turn = WHITE;
 
 	pieceList[ 0].generate(a8, ROOK  , BLACK);
@@ -39,7 +40,6 @@ void Game::newGame(void){
 	pieceList[13].generate(f7, PAWN, BLACK);
 	pieceList[14].generate(g7, PAWN, BLACK);
 	pieceList[15].generate(h7, PAWN, BLACK);
-    std::cout << "Here\n";
 		
 	pieceList[16].generate(a1, ROOK  , WHITE);
 	pieceList[17].generate(b1, KNIGHT, WHITE);
