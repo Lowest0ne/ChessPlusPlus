@@ -204,7 +204,7 @@ bool Game::updateMoves(Piece_Color color)
 	{
 		if (pieceList[i].captured())
 			continue;
-		if (pieceList[i].moves().any())
+		if (pieceList[i].moves_actual(pieceList).any())
 		{
 			hasMoves = true;
 			break;

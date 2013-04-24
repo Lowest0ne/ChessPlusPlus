@@ -48,13 +48,13 @@ $(ODIR)Logger.o: $(SOURCEDIR)log/Logger.cpp $(SOURCEDIR)log/Logger.hpp
 $(ODIR)json-parser.o: ./lib/json-parser/json.c ./lib/json-parser/json.h
 	$(CC) $(OFLAG) ./lib/json-parser/json.c -o $(ODIR)json-parser.o
 
-$(ODIR)Piece.o: $(SOURCEDIR)board/Piece.cpp $(SOURCEDIR)board/chessgame.hpp
+$(ODIR)Piece.o: $(SOURCEDIR)board/Piece.cpp $(SOURCEDIR)board/Piece.hpp
 	$(CC) $(OFLAG) $(INCLUDE) $(SOURCEDIR)board/Piece.cpp -o $(ODIR)Piece.o
 
 $(ODIR)Board.o: $(SOURCEDIR)board/Board.cpp $(SOURCEDIR)board/chessgame.hpp
 	$(CC) $(OFLAG) $(INCLUDE) $(SOURCEDIR)board/Board.cpp -o $(ODIR)Board.o
     
-$(ODIR)Game.o: $(SOURCEDIR)board/Game.cpp $(SOURCEDIR)board/chessgame.hpp
+$(ODIR)Game.o: $(SOURCEDIR)board/Game.cpp $(SOURCEDIR)board/chessgame.hpp $(SOURCEDIR)/board/Piece.hpp
 	$(CC) $(OFLAG) $(INCLUDE) $(SOURCEDIR)board/Game.cpp -o $(ODIR)Game.o
     
 

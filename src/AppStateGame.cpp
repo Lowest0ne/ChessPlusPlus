@@ -28,7 +28,7 @@ namespace chesspp
 		Piece** board = chess.getBoard();
 		if (currentPiece)
 		{
-			const std::bitset<BOARD_SIZE> moves = currentPiece->moves(chess.getPieces());
+			const std::bitset<BOARD_SIZE> moves = currentPiece->moves_actual(chess.getPieces());
 			for (unsigned int x = 0; x < WIDTH; x++)
 			{
 				for (unsigned int y = 0; y < WIDTH; y++)
