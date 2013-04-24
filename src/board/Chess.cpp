@@ -11,7 +11,8 @@ chesspp::Game::~Game(void)
 }
 
 	
-void chesspp::Game::reset(void){
+void chesspp::Game::reset(void)
+{
 
 	delete [] m_pieces;
 	m_pieces = NULL;
@@ -20,6 +21,34 @@ void chesspp::Game::reset(void){
 		m_board[i] = NULL;
 }
 
+bool chesspp::Game::updateMoves(Piece_Color color)
+{
+	// Update the moves of this color
+	unsigned int offset = color == WHITE ? PIECE_COUNT / 2 : 0;
+	for (unsigned int i = offset; i < offset + PIECE_COUNT / 2; i++)
+	{
+		if (m_pieces[i].captured()) continue;
+		m_pieces[i].update(m_pieces, m_board);
+	}
+
+	// Remove moves from pinned pieces
+	m_pieces[color == WHITE ? WHITE_KING : BLACK_KING].checkPinned(m_pieces, m_board);
+
+
+	// See that the color has a move
+	bool hasMoves = false;
+	for (unsigned int i = offset; i < offset + PIECE_COUNT / 2; i++)
+	{
+		if (m_pieces[i].captured())
+			continue;
+		if (m_pieces[i].moves_actual(m_pieces).any())
+		{
+			hasMoves = true;
+			break;
+		}
+	}
+	return hasMoves;
+}
 
 void chesspp::Game::newGame(void){
 	reset();    
@@ -177,34 +206,6 @@ Piece_Color chesspp::Game::getTurn(void) const
 	return turn;
 }
 
-bool chesspp::Game::updateMoves(Piece_Color color)
-{
-	// Update the moves of this color
-	unsigned int offset = color == WHITE ? PIECE_COUNT / 2 : 0;
-	for (unsigned int i = offset; i < offset + PIECE_COUNT / 2; i++)
-	{
-		if (m_pieces[i].captured()) continue;
-		m_pieces[i].update(m_pieces, m_board);
-	}
-
-	// Remove moves from pinned pieces
-	m_pieces[color == WHITE ? WHITE_KING : BLACK_KING].checkPinned(m_pieces, m_board);
-
-
-	// See that the color has a move
-	bool hasMoves = false;
-	for (unsigned int i = offset; i < offset + PIECE_COUNT / 2; i++)
-	{
-		if (m_pieces[i].captured())
-			continue;
-		if (m_pieces[i].moves_actual(m_pieces).any())
-		{
-			hasMoves = true;
-			break;
-		}
-	}
-	return hasMoves;
-}
 
 bool chesspp::Game::board_move(Board_Map from, Board_Map to)
 {

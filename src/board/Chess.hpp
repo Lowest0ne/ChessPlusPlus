@@ -27,14 +27,14 @@ namespace chesspp
          *specific pieces, as well as all pieces of a certain color
         */
         Piece* m_pieces;
-        
+
         /*An array of Piece* of size BOARD_SIZE
          *This array must be updated whenever a piece moves (as well as the
          *piece's actual position.
          *It provides a way to know the piece on a specific part of the board
          */
         Piece* m_board[BOARD_SIZE];
-        
+
         /*Who's tuen is it?
         */
         Piece_Color turn;
@@ -45,11 +45,11 @@ namespace chesspp
         void reset(void);
 
         /*Given a color, update that color's moves
-         *They are separated to allow the color that has just moved to be 
-         *calculated first.  A piece's move might have unblocked a check     
-        */     
+         *They are separated to allow the color that has just moved to be
+         *calculated first.  A piece's move might have unblocked a check
+        */
         bool updateMoves(Piece_Color color);
-        
+
         /*move the Piece on m_board
         */
         bool board_move(Board_Map from, Board_Map to);
@@ -57,11 +57,11 @@ namespace chesspp
     public:
         Game(void);
         ~Game(void);
-        
+
         // Create a new game, free mem form old game, shine the pieces etc...
         void newGame(void);
-        
-        /*Technically works, check out new_gameV2.txt
+
+        /*Technically works, check out res/games/new_gameV2.txt
          *Ideally, moves are stored in a list.  The list could be the save-game
          *Thus, all Chess games construct to a new game, then load from the file
          *the moves
@@ -77,7 +77,7 @@ namespace chesspp
          *It returns false if a color has no moves, signalling checkmate
         */
         bool updateMoves();
-        
+
         /*Who's tuen is it?
         */
         Piece_Color getTurn(void) const;
