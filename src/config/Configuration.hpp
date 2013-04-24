@@ -105,6 +105,7 @@ namespace chesspp
         class GraphicsConfig : public Configuration
         {
             std::string path_board, path_pieces, path_validMove;
+            std::string path_enemyMove, path_captureMove;
 
         public:
             GraphicsConfig()
@@ -112,12 +113,16 @@ namespace chesspp
             , path_board(res_path + std::string(reader()["chesspp"]["board"]["images"]["board"]))
             , path_pieces(res_path + std::string(reader()["chesspp"]["board"]["images"]["pieces"]))
             , path_validMove(res_path + std::string(reader()["chesspp"]["board"]["images"]["validMove"]))
+            , path_enemyMove(res_path + std::string(reader()["chesspp"]["board"]["images"]["enemyMove"]))
+            , path_captureMove(res_path + std::string(reader()["chesspp"]["board"]["images"]["captureMove"]))
             {
             }
 
             std::string getSpritePath_board() { return path_board; }
             std::string getSpritePath_pieces() { return path_pieces; }
             std::string getSpritePath_validMove() { return path_validMove; }
+            std::string getSpritePath_enemyMove() { return path_enemyMove; }
+            std::string getSpritePath_captureMove() { return path_captureMove; }
         };
     }
 }

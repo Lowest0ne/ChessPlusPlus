@@ -21,6 +21,10 @@ namespace chesspp
 
         graphics::GraphicsHandler graphics;
         config::BoardConfig boardConfig;
+        
+        Piece* currentPiece;
+		bool pieceSelected;
+		bool updateMoves;
 
     public:
         AppStateGame(Application* _app, sf::RenderWindow *_display);

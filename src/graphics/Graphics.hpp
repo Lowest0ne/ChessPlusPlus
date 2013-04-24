@@ -18,7 +18,11 @@ namespace chesspp
     {
         class GraphicsHandler
         {
-            sf::Sprite board, pieces, validMove;
+            sf::Sprite board_image;
+            sf::Sprite piece_image;
+            sf::Sprite validMove_image;
+            sf::Sprite enemyMove_image;
+            sf::Sprite captureMove_image;
             uint16_t cell_size;
             sf::RenderWindow *display;
 
@@ -32,7 +36,7 @@ namespace chesspp
             void drawBackground();
 
             //Draws a piece of p.Type and p.Color to p.getBoardPos
-            void drawPiece(Piece *p);
+            void drawPiece(const Piece &p);
 
             //Separate version of drawPiece to draw a piece at any location on the screen.
             void drawPieceAt(Piece *p, const sf::Vector2i &pos);
@@ -41,7 +45,14 @@ namespace chesspp
             void drawValidMove(const int x, const int y);
 
             //Draws the entire game.
-            void drawBoard(Piece **board);
+            void drawBoard(const Piece *piece_array);
+            
+            
+            void drawPieceImage(sf::IntRect image_section, int x, int y);
+            void drawValidImage(int x, int y);
+            void drawEnemyImage(int x, int y);
+            void drawCaptureImage(int x, int y);
+          
         };
     }
 }

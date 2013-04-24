@@ -13,7 +13,9 @@
             {
                 "board": "res/img/chessboard_640x640.png",
                 "pieces": "res/img/chess_pieces_80x80_each.png",
-                "validMove": "res/img/valid_move.png"
+                "validMove": "res/img/valid_move.png",
+                "enemyMove": "res/img/enemy_move.png",
+                "captureMove": "res/img/capture_move.png",
             }
         }
     }
