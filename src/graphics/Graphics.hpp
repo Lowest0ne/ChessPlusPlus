@@ -4,7 +4,7 @@
 #include "SFML.hpp"
 #include "TextureManager.hpp"
 #include "config/Configuration.hpp"
-#include "board/Chessgame.hpp"
+#include "board/Chess.hpp"  // Lowest0ne says: I don't think graphics should know of Piece
 #include "log/Logger.hpp"
 
 #ifdef _DEBUG

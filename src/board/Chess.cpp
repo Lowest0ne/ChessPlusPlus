@@ -1,20 +1,23 @@
-#include "Chessgame.hpp"
+#include "Chess.hpp"
 
 Game::Game(void)
 	:pieceList(NULL)
-    ,turn(WHITE)
 {
-    
+    reset();
 }
-Game::~Game(void){
-	this->reset();
+Game::~Game(void)
+{
+	reset();
 }
 
 	
 void Game::reset(void){
-	delete [] this->pieceList;
+
+	delete [] pieceList;
 	pieceList = NULL;
-	this->board.reset();
+    
+    for (unsigned int i = 0 ; i < BOARD_SIZE; i++)
+		m_board[i] = NULL;
 }
 
 
@@ -62,7 +65,7 @@ void Game::newGame(void){
 	// Create the board, then update moves.
 	// Can't be done in same loop, this would update moves with an un-filled board
   	std::for_each(pieceList, pieceList + PIECE_COUNT, [&](Piece& p)	{
-		*(board[p.arrPos()]) = &p;
+		m_board[p.arrPos()] = &p;
 	});
 
 	updateMoves(turn);
@@ -111,7 +114,7 @@ void Game::newGame(std::ifstream& in){
 	}	
 		
 	std::for_each(pieceList, pieceList + PIECE_COUNT, [&](Piece& p)	{
-		*(board[p.arrPos()]) = &p;
+		m_board[p.arrPos()] = &p;
 	});
 	
 	Piece_Color temp = turn;
@@ -120,21 +123,11 @@ void Game::newGame(std::ifstream& in){
 	updateMoves(temp);
 }
 
-std::ostream& operator<<(std::ostream& out, const Game& game){
-	return out << game.board;
-}
-
-void Game::writePieceList(std::ostream& out){
-	for (int i = 0; i < PIECE_COUNT; i++)
-		out << pieceList[i] << std::endl << std::endl;
-}
-
 bool Game::makeMove(Board_Map from, Board_Map to){
 	if  (from == to)
 		return false;
 
-
-	Piece* toMove = board.get()[from];
+	Piece* toMove = m_board[from];
 	if (turn != toMove->color())
 		return false;
 
@@ -142,7 +135,7 @@ bool Game::makeMove(Board_Map from, Board_Map to){
 
 	if (!toMove->move(to))
 		return false;
-	if (!board.move(from, to))
+	if (!board_move(from, to))
 	{
 		toMove->move(from);
 		if (!pieceMoved) toMove->setMoved(false);
@@ -191,11 +184,11 @@ bool Game::updateMoves(Piece_Color color)
 	for (unsigned int i = offset; i < offset + PIECE_COUNT / 2; i++)
 	{
 		if (pieceList[i].captured()) continue;
-		pieceList[i].update(pieceList, board.get());
+		pieceList[i].update(pieceList, m_board);
 	}
 
 	// Remove moves from pinned pieces
-	pieceList[color == WHITE ? WHITE_KING : BLACK_KING].checkPinned(pieceList, board.get());
+	pieceList[color == WHITE ? WHITE_KING : BLACK_KING].checkPinned(pieceList, m_board);
 
 
 	// See that the color has a move
@@ -212,5 +205,18 @@ bool Game::updateMoves(Piece_Color color)
 	}
 	return hasMoves;
 }
+
+bool Game::board_move(Board_Map from, Board_Map to)
+{
+	if (!m_board[from]) return false;
+	
+	if (m_board[to]) m_board[to]->capture();
+	
+	m_board[to] = m_board[from];
+	m_board[from] = NULL;
+	return true;
+}
+
+
 
 

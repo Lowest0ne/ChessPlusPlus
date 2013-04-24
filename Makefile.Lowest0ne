@@ -13,7 +13,7 @@ SOURCEDIR = ./src/
 
 ODIR = ./obj/
 OBJECTS = $(ODIR)Application.o $(ODIR)AppStateGame.o $(ODIR)Graphics.o\
-$(ODIR)Main.o $(ODIR)Board.o $(ODIR)Game.o $(ODIR)Piece.o $(ODIR)Logger.o\
+$(ODIR)Main.o $(ODIR)Chess.o $(ODIR)Piece.o $(ODIR)Logger.o\
 $(ODIR)json-parser.o
 
 EXECUTABLE = ChessPlusPlus.exe
@@ -30,12 +30,12 @@ $(SOURCEDIR)AppState.hpp
 	$(CC) $(OFLAG) $(INCLUDE) $(SOURCEDIR)Application.cpp -o $(ODIR)Application.o
 
 $(ODIR)AppStateGame.o: $(SOURCEDIR)AppStateGame.cpp $(SOURCEDIR)graphics/Graphics.hpp\
-$(SOURCEDIR)SFML.hpp $(SOURCEDIR)TextureManager.hpp $(SOURCEDIR)board/chessgame.hpp\
+$(SOURCEDIR)SFML.hpp $(SOURCEDIR)TextureManager.hpp $(SOURCEDIR)board/Chess.hpp\
 $(SOURCEDIR)config/Configuration.hpp $(SOURCEDIR)AppStateGame.hpp
 	$(CC) $(OFLAG) $(INCLUDE) $(SOURCEDIR)AppStateGame.cpp -o $(ODIR)AppStateGame.o
 
 $(ODIR)Graphics.o: $(SOURCEDIR)graphics/Graphics.cpp $(SOURCEDIR)graphics/Graphics.hpp\
-$(SOURCEDIR)SFML.hpp $(SOURCEDIR)TextureManager.hpp $(SOURCEDIR)board/chessgame.hpp\
+$(SOURCEDIR)SFML.hpp $(SOURCEDIR)TextureManager.hpp\
 $(SOURCEDIR)log/logger.hpp $(SOURCEDIR)config/Configuration.hpp
 	$(CC) $(OFLAG) $(INCLUDE) $(SOURCEDIR)graphics/Graphics.cpp -o $(ODIR)Graphics.o
 
@@ -50,12 +50,9 @@ $(ODIR)json-parser.o: ./lib/json-parser/json.c ./lib/json-parser/json.h
 
 $(ODIR)Piece.o: $(SOURCEDIR)board/Piece.cpp $(SOURCEDIR)board/Piece.hpp
 	$(CC) $(OFLAG) $(INCLUDE) $(SOURCEDIR)board/Piece.cpp -o $(ODIR)Piece.o
-
-$(ODIR)Board.o: $(SOURCEDIR)board/Board.cpp $(SOURCEDIR)board/chessgame.hpp
-	$(CC) $(OFLAG) $(INCLUDE) $(SOURCEDIR)board/Board.cpp -o $(ODIR)Board.o
     
-$(ODIR)Game.o: $(SOURCEDIR)board/Game.cpp $(SOURCEDIR)board/chessgame.hpp $(SOURCEDIR)/board/Piece.hpp
-	$(CC) $(OFLAG) $(INCLUDE) $(SOURCEDIR)board/Game.cpp -o $(ODIR)Game.o
+$(ODIR)Chess.o: $(SOURCEDIR)board/Chess.cpp $(SOURCEDIR)board/Chess.hpp $(SOURCEDIR)/board/Piece.hpp
+	$(CC) $(OFLAG) $(INCLUDE) $(SOURCEDIR)board/Chess.cpp -o $(ODIR)Chess.o
     
 
 clean:

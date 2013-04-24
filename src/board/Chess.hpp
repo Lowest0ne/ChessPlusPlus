@@ -17,32 +17,18 @@
 #define BOARD_SIZE (WIDTH * WIDTH)
 #define PIECE_COUNT 32
 
-
-class Board{
-private:
-	Piece *board[BOARD_SIZE];
-
-public:
-	Board(void);
-
-	void reset();
-
-	bool move(Board_Map from, Board_Map to);
-
-	friend std::ostream& operator<<(std::ostream& out, const Board& board);
-	Piece** operator[](int at);
-	
-	Piece** get(void) { return board; }	
-};
 class Game{
 private:
 	Piece* pieceList;
-	Board  board;
+    
+    Piece* m_board[BOARD_SIZE];
+    
 	Piece_Color turn;
 
 	void reset(void);
 
 	bool updateMoves(Piece_Color color);
+    bool board_move(Board_Map from, Board_Map to);
 
 public:
 	Game(void);
@@ -57,13 +43,9 @@ public:
 
 	Piece_Color getTurn(void) const;
 
-	void writePieceList(std::ostream& out = std::cout);
-
-	friend std::ostream& operator<<(std::ostream& out, const Game& game);
-
 	// For Quick UI
 	const Piece* getPieces(void) const { return pieceList; }
-	Piece** getBoard(void)  { return board.get(); }
+	Piece** getBoard(void)  { return m_board; }
 };
 
 #endif

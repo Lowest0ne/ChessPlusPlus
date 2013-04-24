@@ -17,7 +17,8 @@ Piece::Piece(void)
     :me(0)
 {
 }
-void Piece::generate(Board_Map position, Piece_Type type, Piece_Color color){
+void Piece::generate(Board_Map position, Piece_Type type, Piece_Color color)
+{
     me = (type      << SHFT_TYP) +
          (color     << SHFT_CLR) +
          ((position % WIDTH) << SHFT_PSX) +
@@ -26,13 +27,15 @@ void Piece::generate(Board_Map position, Piece_Type type, Piece_Color color){
 }
 
 
-void Piece::capture(void){
+void Piece::capture(void)
+{
     me |= MASK_CPT;
     m_moves = 0;
-
 }
-void Piece::setMoved(bool move){
-    me &= ~(MASK_MVD);
+
+void Piece::setMoved(bool move)
+{
+    me ^= (MASK_MVD);
     me |= ((move? 1 : 0) << SHFT_MVD);
 }
 
@@ -49,22 +52,7 @@ bool Piece::move(Board_Map pos){
 }
 
 
-const char* Piece::type_str(void)const {return Piece_Type_Str[type()];  }
-const char* Piece::color_str(void)const{return Piece_Color_Str[color()];}
-std::ostream& operator<<(std::ostream& out, const Piece& p){
 
-
-    return out << p.type_str() << ", " << p.color_str() << ":\n"
-               << "(" << p.xPos() << "," << p.yPos() << "," << p.arrPos() << ")\n"
-               << "Moved: " << std::boolalpha << p.moved() << '\n'
-               << "Captd: " << std::boolalpha << p.captured() << '\n'
-               << "Chckg: " << std::boolalpha << p.checking() << '\n'
-               << "Chckd: " << std::boolalpha << p.checked() << '\n'
-               << std::bitset<32>((unsigned long long)p.me);
-}
-char Piece::asChar(void) const{
-    return (*type_str()) + ( color() * ('a' - 'A'));
-}
 
 
 // MOVING FUNCTIONS

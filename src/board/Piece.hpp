@@ -192,14 +192,15 @@ public:
     inline Piece& operator=(const Piece& other)
     { this->me = other.me; return *this; }
 
-    // Fancy console things
-    const char* type_str(void) const;
-    const char* color_str(void) const;
-
+    // Strings
+    
     static const char* Piece_Type_Str [];
     static const char* Piece_Color_Str[];
-    friend std::ostream& operator<<(std::ostream& out, const Piece& piece);
-    char asChar(void) const;
+    
+    const char* type_str(void) const { return Piece_Type_Str[type()];   }
+    const char* color_str(void)const { return Piece_Color_Str[color()]; }
+    char asChar(void) const { return (*type_str()) + ( color() * ('a' - 'A')); }
+
 };
 
 
