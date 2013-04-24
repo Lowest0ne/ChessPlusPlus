@@ -1,6 +1,7 @@
 # A MinGW Makefile
 # As it uses -std=c++, g++ must be at least Version 4.7  ( $ g++ --version )
 # I ended up downloading this: http://nuwen.net/mingw.html
+#
 
 CC = g++
 FLAGS = -Wall -std=c++11 -DSFML_STATIC
