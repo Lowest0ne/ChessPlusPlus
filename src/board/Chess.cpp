@@ -1,70 +1,70 @@
 #include "Chess.hpp"
 
-Game::Game(void)
-	:pieceList(NULL)
+chesspp::Game::Game(void)
+	:m_pieces(NULL)
 {
     reset();
 }
-Game::~Game(void)
+chesspp::Game::~Game(void)
 {
 	reset();
 }
 
 	
-void Game::reset(void){
+void chesspp::Game::reset(void){
 
-	delete [] pieceList;
-	pieceList = NULL;
+	delete [] m_pieces;
+	m_pieces = NULL;
     
     for (unsigned int i = 0 ; i < BOARD_SIZE; i++)
 		m_board[i] = NULL;
 }
 
 
-void Game::newGame(void){
+void chesspp::Game::newGame(void){
 	reset();    
-    pieceList = new Piece[PIECE_COUNT];
+    m_pieces = new Piece[PIECE_COUNT];
 	turn = WHITE;
 
-	pieceList[ 0].generate(a8, ROOK  , BLACK);
-	pieceList[ 1].generate(b8, KNIGHT, BLACK);
-	pieceList[ 2].generate(c8, BISHOP, BLACK);
-	pieceList[ 3].generate(d8, QUEEN , BLACK);
-	pieceList[ 4].generate(e8, KING  , BLACK);
-	pieceList[ 5].generate(f8, BISHOP, BLACK);
-	pieceList[ 6].generate(g8, KNIGHT, BLACK);
-	pieceList[ 7].generate(h8, ROOK, BLACK);
+	m_pieces[ 0].generate(a8, ROOK  , BLACK);
+	m_pieces[ 1].generate(b8, KNIGHT, BLACK);
+	m_pieces[ 2].generate(c8, BISHOP, BLACK);
+	m_pieces[ 3].generate(d8, QUEEN , BLACK);
+	m_pieces[ 4].generate(e8, KING  , BLACK);
+	m_pieces[ 5].generate(f8, BISHOP, BLACK);
+	m_pieces[ 6].generate(g8, KNIGHT, BLACK);
+	m_pieces[ 7].generate(h8, ROOK, BLACK);
 		
-	pieceList[ 8].generate(a7, PAWN, BLACK);
-	pieceList[ 9].generate(b7, PAWN, BLACK);
-	pieceList[10].generate(c7, PAWN, BLACK);
-	pieceList[11].generate(d7, PAWN, BLACK);
-	pieceList[12].generate(e7, PAWN, BLACK);
-	pieceList[13].generate(f7, PAWN, BLACK);
-	pieceList[14].generate(g7, PAWN, BLACK);
-	pieceList[15].generate(h7, PAWN, BLACK);
+	m_pieces[ 8].generate(a7, PAWN, BLACK);
+	m_pieces[ 9].generate(b7, PAWN, BLACK);
+	m_pieces[10].generate(c7, PAWN, BLACK);
+	m_pieces[11].generate(d7, PAWN, BLACK);
+	m_pieces[12].generate(e7, PAWN, BLACK);
+	m_pieces[13].generate(f7, PAWN, BLACK);
+	m_pieces[14].generate(g7, PAWN, BLACK);
+	m_pieces[15].generate(h7, PAWN, BLACK);
 		
-	pieceList[16].generate(a1, ROOK  , WHITE);
-	pieceList[17].generate(b1, KNIGHT, WHITE);
-	pieceList[18].generate(c1, BISHOP, WHITE);
-	pieceList[19].generate(d1, QUEEN , WHITE);
-	pieceList[20].generate(e1, KING  , WHITE);
-	pieceList[21].generate(f1, BISHOP, WHITE);
-	pieceList[22].generate(g1, KNIGHT, WHITE);
-	pieceList[23].generate(h1, ROOK, WHITE);
+	m_pieces[16].generate(a1, ROOK  , WHITE);
+	m_pieces[17].generate(b1, KNIGHT, WHITE);
+	m_pieces[18].generate(c1, BISHOP, WHITE);
+	m_pieces[19].generate(d1, QUEEN , WHITE);
+	m_pieces[20].generate(e1, KING  , WHITE);
+	m_pieces[21].generate(f1, BISHOP, WHITE);
+	m_pieces[22].generate(g1, KNIGHT, WHITE);
+	m_pieces[23].generate(h1, ROOK, WHITE);
 		
-	pieceList[24].generate(a2, PAWN, WHITE);
-	pieceList[25].generate(b2, PAWN, WHITE);
-	pieceList[26].generate(c2, PAWN, WHITE);
-	pieceList[27].generate(d2, PAWN, WHITE);
-	pieceList[28].generate(e2, PAWN, WHITE);
-	pieceList[29].generate(f2, PAWN, WHITE);
-	pieceList[30].generate(g2, PAWN, WHITE);
-	pieceList[31].generate(h2, PAWN, WHITE);
+	m_pieces[24].generate(a2, PAWN, WHITE);
+	m_pieces[25].generate(b2, PAWN, WHITE);
+	m_pieces[26].generate(c2, PAWN, WHITE);
+	m_pieces[27].generate(d2, PAWN, WHITE);
+	m_pieces[28].generate(e2, PAWN, WHITE);
+	m_pieces[29].generate(f2, PAWN, WHITE);
+	m_pieces[30].generate(g2, PAWN, WHITE);
+	m_pieces[31].generate(h2, PAWN, WHITE);
 	
 	// Create the board, then update moves.
 	// Can't be done in same loop, this would update moves with an un-filled board
-  	std::for_each(pieceList, pieceList + PIECE_COUNT, [&](Piece& p)	{
+  	std::for_each(m_pieces, m_pieces + PIECE_COUNT, [&](Piece& p)	{
 		m_board[p.arrPos()] = &p;
 	});
 
@@ -72,10 +72,10 @@ void Game::newGame(void){
 	Piece_Color temp = turn == WHITE ? BLACK : WHITE;
 	updateMoves(temp);
 }
-void Game::newGame(std::ifstream& in){
+void chesspp::Game::newGame(std::ifstream& in){
 	reset();
 	turn = WHITE;
-	pieceList = new Piece[PIECE_COUNT];
+	m_pieces = new Piece[PIECE_COUNT];
 	
 	in.ignore(80,'\n');
 	for (unsigned int i = 0; i < PIECE_COUNT; i++)
@@ -110,10 +110,10 @@ void Game::newGame(std::ifstream& in){
 		in.ignore(80, '\n');
 		
 		Board_Map t_map = (Board_Map)(yPos * WIDTH + xPos);
-		pieceList[i].generate(t_map, t_type, t_color);
+		m_pieces[i].generate(t_map, t_type, t_color);
 	}	
 		
-	std::for_each(pieceList, pieceList + PIECE_COUNT, [&](Piece& p)	{
+	std::for_each(m_pieces, m_pieces + PIECE_COUNT, [&](Piece& p)	{
 		m_board[p.arrPos()] = &p;
 	});
 	
@@ -123,7 +123,7 @@ void Game::newGame(std::ifstream& in){
 	updateMoves(temp);
 }
 
-bool Game::makeMove(Board_Map from, Board_Map to){
+bool chesspp::Game::makeMove(Board_Map from, Board_Map to){
 	if  (from == to)
 		return false;
 
@@ -146,15 +146,15 @@ bool Game::makeMove(Board_Map from, Board_Map to){
 	// 4 and 24 are being used more and more often, I might define these
 	// As well as the positions of the other pieces... not sure
 	// Anyway, this is mostly to see if the makeCheckMask funtion is working
-	if (pieceList[WHITE_KING].checked())  pieceList[WHITE_KING].setCheck(false);
-	if (pieceList[BLACK_KING].checked())  pieceList[BLACK_KING].setCheck(false);
+	if (m_pieces[WHITE_KING].checked())  m_pieces[WHITE_KING].setCheck(false);
+	if (m_pieces[BLACK_KING].checked())  m_pieces[BLACK_KING].setCheck(false);
 
 	
 	turn = turn == WHITE? BLACK : WHITE;
 	return true;
 }
 
-bool Game::updateMoves()
+bool chesspp::Game::updateMoves()
 {
 	// newGame should not call this method
 	// The color that is updated first is the color that is not active
@@ -172,32 +172,32 @@ bool Game::updateMoves()
 	return true; // maybe return false if the game is over :)
 }
 
-Piece_Color Game::getTurn(void) const
+Piece_Color chesspp::Game::getTurn(void) const
 {
 	return turn;
 }
 
-bool Game::updateMoves(Piece_Color color)
+bool chesspp::Game::updateMoves(Piece_Color color)
 {
 	// Update the moves of this color
 	unsigned int offset = color == WHITE ? PIECE_COUNT / 2 : 0;
 	for (unsigned int i = offset; i < offset + PIECE_COUNT / 2; i++)
 	{
-		if (pieceList[i].captured()) continue;
-		pieceList[i].update(pieceList, m_board);
+		if (m_pieces[i].captured()) continue;
+		m_pieces[i].update(m_pieces, m_board);
 	}
 
 	// Remove moves from pinned pieces
-	pieceList[color == WHITE ? WHITE_KING : BLACK_KING].checkPinned(pieceList, m_board);
+	m_pieces[color == WHITE ? WHITE_KING : BLACK_KING].checkPinned(m_pieces, m_board);
 
 
 	// See that the color has a move
 	bool hasMoves = false;
 	for (unsigned int i = offset; i < offset + PIECE_COUNT / 2; i++)
 	{
-		if (pieceList[i].captured())
+		if (m_pieces[i].captured())
 			continue;
-		if (pieceList[i].moves_actual(pieceList).any())
+		if (m_pieces[i].moves_actual(m_pieces).any())
 		{
 			hasMoves = true;
 			break;
@@ -206,9 +206,9 @@ bool Game::updateMoves(Piece_Color color)
 	return hasMoves;
 }
 
-bool Game::board_move(Board_Map from, Board_Map to)
+bool chesspp::Game::board_move(Board_Map from, Board_Map to)
 {
-	if (!m_board[from]) return false;
+	if (!m_board[from] || m_board[from]->captured()) return false;
 	
 	if (m_board[to]) m_board[to]->capture();
 	
