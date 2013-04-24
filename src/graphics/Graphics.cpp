@@ -54,34 +54,7 @@ namespace chesspp
         }
         void GraphicsHandler::drawBoard(const Piece *piece_array)
         {
-            drawBackground();
-            
-            for (unsigned int i = 0; i < PIECE_COUNT; i++)
-            {
-                // Draw the selected piece last, so that it is on top
-                if (piece_array[i].captured())// || (pieceSelected && currentPiece == &piece_array[i]))
-                        continue;
-
-                int texture_x = 0;
-                int texture_y = 0;
-                switch(piece_array[i].type())
-                {
-                case PAWN  : texture_x = 0; break;
-                case ROOK  : texture_x = 1; break;
-                case KNIGHT: texture_x = 2; break;
-                case BISHOP: texture_x = 3; break;
-                case QUEEN : texture_x = 4; break;
-                case KING  : texture_x = 5; break;
-
-                default: break;
-                }
-                texture_y = piece_array[i].color();
-                piece_image.setTextureRect(sf::IntRect(texture_x * cell_size, texture_y * cell_size, cell_size, cell_size));
-                piece_image.setPosition(piece_array[i].xPos() * cell_size, piece_array[i].yPos() *cell_size);
-                display->draw(piece_image); 
-            }
-
-
+            std::cout << "GraphicsHandler::drawBoard does nothing\n";
         }
         
         void GraphicsHandler::drawPieceImage(sf::IntRect image_section, int x, int y)
