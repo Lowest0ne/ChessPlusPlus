@@ -1,4 +1,4 @@
-#include "chessgame.h"
+#include "chessgame.hpp"
 
 Board::Board(void){
 	this->reset();

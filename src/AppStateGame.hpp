@@ -4,7 +4,7 @@
 #include "TextureManager.hpp"
 #include "graphics/Graphics.hpp"
 #include "config/Configuration.hpp"
-#include "board/Board.hpp"
+#include "board/Chessgame.hpp"
 
 #ifdef _DEBUG
     #include <iostream>

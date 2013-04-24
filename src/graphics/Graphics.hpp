@@ -4,7 +4,7 @@
 #include "SFML.hpp"
 #include "TextureManager.hpp"
 #include "config/Configuration.hpp"
-#include "board/Piece.hpp"
+#include "board/Chessgame.hpp"
 #include "log/Logger.hpp"
 
 #ifdef _DEBUG
